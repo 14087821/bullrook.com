@@ -621,3 +621,32 @@ jobs:
 </script>
 
 
+<hr style="margin: 20px 0;">
+<h4>🛒 Enviar una Orden (Ejemplo)</h4>
+
+<div style="padding: 15px; border: 1px solid #ccc; border-radius: 5px;">
+    <label for="market">Mercado:</label>
+    <select id="market" style="padding: 8px; margin-bottom: 10px;">
+        <option value="BTC-USD">BTC/USD (Ejemplo)</option> 
+        <option value="ETH-USD">ETH/USD (Ejemplo)</option>
+    </select>
+    
+    <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+        <label for="side">Tipo:</label>
+        <select id="side" style="padding: 8px;">
+            <option value="BUY">Comprar (Largo)</option>
+            <option value="SELL">Vender (Corto)</option>
+        </select>
+        
+        <label for="size">Tamaño:</label>
+        <input type="number" id="size" placeholder="Cantidad de Base" style="padding: 8px; width: 100px;">
+        
+        <label for="price">Precio Límite:</label>
+        <input type="number" id="price" placeholder="Precio USD" style="padding: 8px; width: 100px;">
+    </div>
+    
+    <button id="submitOrderBtn" class="cta-button" style="background-color: #1e88e5; width: 100%;">
+        Enviar Orden Límite
+    </button>
+    <p id="orderStatus" style="margin-top: 10px; font-size: 0.9em;"></p>
+</div>
