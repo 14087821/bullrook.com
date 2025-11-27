@@ -892,4 +892,26 @@ jobs:
         }
     });
 
-</script>
+</script><hr style="margin: 20px 0;">
+<h4>🎁 Mis Recompensas de Staking</h4>
+
+<div style="padding: 15px; border: 1px solid #ff9800; border-radius: 5px; background-color: #fff3e0;">
+    <p>Recompensas Acumuladas: <strong id="currentRewards">0.0000 $DYDX</strong></p>
+    
+    <button id="claimRewardsBtn" class="cta-button" style="background-color: #ff9800; width: 100%; margin-top: 10px;">
+        Reclamar Recompensas
+    </button>
+    <p id="claimStatus" style="margin-top: 10px; font-size: 0.9em;"></p>
+</div>
+<hr style="margin: 20px 0;">
+<h4>🎁 Mis Recompensas de Staking</h4>
+
+<div style="padding: 15px; border: 1px solid #ff9800; border-radius: 5px; background-color: #fff3e0;">
+    <p>Recompensas Acumuladas: <strong id="currentRewards">0.0000 $DYDX</strong></p>
+    
+    <button id="claimRewardsBtn" class="cta-button" style="background-color: #ff9800; width: 100%; margin-top: 10px;">
+        Reclamar Recompensas
+    </button>
+    <p id="claimStatus" style="margin-top: 10px; font-size: 0.9em;"></p>
+</div>
+
