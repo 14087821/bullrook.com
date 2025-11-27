@@ -724,4 +724,116 @@ jobs:
     </button>
     <p id="stakeStatus" style="margin-top: 10px; font-size: 0.9em;"></p>
 </div>
+<script>
+    // ... (El código de conexión y balances anteriores) ...
+
+    document.getElementById('submitOrderBtn').addEventListener('click', async () => {
+        const orderStatus = document.getElementById('orderStatus');
+        orderStatus.textContent = 'Procesando orden...';
+        
+        // 1. Obtener los parámetros del formulario
+        const market = document.getElementById('market').value;
+        const side = document.getElementById('side').value; // BUY o SELL
+        const size = document.getElementById('size').value;
+        const price = document.getElementById('price').value;
+        
+        if (!size || !price) {
+            orderStatus.textContent = '❌ Por favor, ingresa el tamaño y el precio.';
+            return;
+        }
+
+        try {
+            // 2. Obtener la dirección y el firmador (signer) de Keplr
+            const offlineSigner = window.keplr.getOfflineSigner(chainId);
+            const accounts = await offlineSigner.getAccounts();
+            const userAddress = accounts[0].address;
+
+            // 3. Crear el mensaje de orden (ESTO ES CONCEPTUAL Y DEPENDE DE LA LIBRERÍA)
+            // En un proyecto real, se usaría un MessageComposer específico de dYdX.
+            const msgOrder = {
+                typeUrl: "/dydx.exchange.v3.MsgCreateOrder", // Tipo de mensaje específico de dYdX
+                value: {
+                    sender: userAddress,
+                    market: market,
+                    side: side,
+                    size: size,
+                    price: price,
+                    // Otros parámetros como expiration, type (LIMIT/MARKET), etc.
+                }
+            };
+            
+            // 4. Enviar la transacción (requiere el objeto SigningStargateClient)
+            // const client = await SigningStargateClient.connectWithSigner(rpcEndpoint, offlineSigner);
+            
+            // const fee = { amount: [{ denom: nativeDenom, amount: "100" }], gas: "200000" };
+            
+            // const txResponse = await client.signAndBroadcast(userAddress, [msgOrder], fee, "Creando orden en dYdX");
+
+            // --- SIMULACIÓN DEL ÉXITO ---
+            orderStatus.textContent = `✅ Orden de ${side} ${size} ${market} a ${price} USD enviada. (Simulado)`;
+            console.log('Orden simulada. En un entorno real, la respuesta de la TX sería:', 'txResponse');
+            
+        } catch (error) {
+            console.error('Error al enviar la orden:', error);
+            orderStatus.textContent = `❌ Fallo al enviar la orden: ${error.message}`;
+        }
+    });
+
+</script>
+<script>
+    // ... (El código de conexión y balances anteriores) ...
+
+    document.getElementById('submitOrderBtn').addEventListener('click', async () => {
+        const orderStatus = document.getElementById('orderStatus');
+        orderStatus.textContent = 'Procesando orden...';
+        
+        // 1. Obtener los parámetros del formulario
+        const market = document.getElementById('market').value;
+        const side = document.getElementById('side').value; // BUY o SELL
+        const size = document.getElementById('size').value;
+        const price = document.getElementById('price').value;
+        
+        if (!size || !price) {
+            orderStatus.textContent = '❌ Por favor, ingresa el tamaño y el precio.';
+            return;
+        }
+
+        try {
+            // 2. Obtener la dirección y el firmador (signer) de Keplr
+            const offlineSigner = window.keplr.getOfflineSigner(chainId);
+            const accounts = await offlineSigner.getAccounts();
+            const userAddress = accounts[0].address;
+
+            // 3. Crear el mensaje de orden (ESTO ES CONCEPTUAL Y DEPENDE DE LA LIBRERÍA)
+            // En un proyecto real, se usaría un MessageComposer específico de dYdX.
+            const msgOrder = {
+                typeUrl: "/dydx.exchange.v3.MsgCreateOrder", // Tipo de mensaje específico de dYdX
+                value: {
+                    sender: userAddress,
+                    market: market,
+                    side: side,
+                    size: size,
+                    price: price,
+                    // Otros parámetros como expiration, type (LIMIT/MARKET), etc.
+                }
+            };
+            
+            // 4. Enviar la transacción (requiere el objeto SigningStargateClient)
+            // const client = await SigningStargateClient.connectWithSigner(rpcEndpoint, offlineSigner);
+            
+            // const fee = { amount: [{ denom: nativeDenom, amount: "100" }], gas: "200000" };
+            
+            // const txResponse = await client.signAndBroadcast(userAddress, [msgOrder], fee, "Creando orden en dYdX");
+
+            // --- SIMULACIÓN DEL ÉXITO ---
+            orderStatus.textContent = `✅ Orden de ${side} ${size} ${market} a ${price} USD enviada. (Simulado)`;
+            console.log('Orden simulada. En un entorno real, la respuesta de la TX sería:', 'txResponse');
+            
+        } catch (error) {
+            console.error('Error al enviar la orden:', error);
+            orderStatus.textContent = `❌ Fallo al enviar la orden: ${error.message}`;
+        }
+    });
+
+</script>
 
