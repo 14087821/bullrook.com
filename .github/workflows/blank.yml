@@ -705,4 +705,23 @@ jobs:
         }
     });
 
-</script>
+</script><hr style="margin: 20px 0;">
+<h4>🔒 Delegar Tokens $DYDX (Staking)</h4>
+
+<div style="padding: 15px; border: 1px solid #43a047; border-radius: 5px;">
+    <label for="validatorList">Selecciona un Validador:</label>
+    <select id="validatorList" style="padding: 8px; margin-bottom: 10px; width: 100%;">
+        <option value="dydxvaloper1a...1">Validator A - [Tasa de Comisión 5%]</option> 
+        <option value="dydxvaloper1b...2">Validator B - [Tasa de Comisión 10%]</option>
+        <option value="dydxvaloper1c...3">Validator C - [Auto-delegado]</option>
+    </select>
+    
+    <label for="stakeAmount">Cantidad a Delegar ($DYDX):</label>
+    <input type="number" id="stakeAmount" placeholder="Ej: 1000" style="padding: 8px; width: 100%;">
+    
+    <button id="submitStakeBtn" class="cta-button" style="background-color: #43a047; width: 100%; margin-top: 10px;">
+        Delegar $DYDX
+    </button>
+    <p id="stakeStatus" style="margin-top: 10px; font-size: 0.9em;"></p>
+</div>
+
