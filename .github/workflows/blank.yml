@@ -1091,3 +1091,32 @@ jobs:
     }
 </style>
 npm install @cosmjs/stargate @cosmjs/proto-signing @keplr-wallet/types
+/**
+ * Crea un cliente de Cosmos SDK para enviar transacciones firmadas.
+ * LLAMA A ESTA FUNCIÓN DESPUÉS DE QUE EL USUARIO HAGA CLIC EN CONECTAR.
+ */
+async function getSigningClient() {
+    if (typeof window.keplr === 'undefined') {
+        throw new Error("Keplr no está instalado.");
+    }
+    
+    // 1. Habilitar Keplr para la cadena (Paso 1 del proyecto)
+    await window.keplr.enable(chainId);
+
+    // 2. Obtener el firmador (Signer) del navegador
+    const offlineSigner = window.keplr.getOfflineSigner(chainId);
+
+    // 3. Crear el cliente de firma real
+    const client = await SigningStargateClient.connectWithSigner(
+        rpcEndpoint,
+        offlineSigner,
+        {
+            // Opcional: Configurar opciones específicas de la cadena
+            prefix: "dydx",
+            gasPrice: GasPrice.fromString("0.0001adydx"),
+        }
+    );
+    
+    const accounts = await offlineSigner.getAccounts();
+    return { client, userAddress: accounts[0].address };
+}
