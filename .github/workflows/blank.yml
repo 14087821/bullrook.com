@@ -27,7 +27,42 @@ jobs:
     <title>Portal DYDX Chain</title>
     <style>
         /* Estilos CSS BÁSICOS para la estructura */
-        body { font-family: sans-serif; margin: 0; padding: 0; background-color: #f4f7f9; color: #333; }
+        body { font-family: sans-serif; margin: 0; padding: 0; background-color: #f4f7f9; color: #333; }<script>
+    const chainId = 'dydx-mainnet-1'; // ID de la cadena que identificamos
+
+    document.getElementById('connectWalletBtn').addEventListener('click', async () => {
+        const statusElement = document.getElementById('walletStatus');
+
+        // 1. Verificar si Keplr está instalado
+        if (typeof window.keplr === 'undefined') {
+            statusElement.textContent = 'Estado: ¡Instala Keplr para continuar!';
+            alert('Keplr no está instalado. Por favor, instálalo para conectarte a la dYdX Chain.');
+            return;
+        }
+
+        try {
+            // 2. Solicitar permiso para conectarse a la dYdX Chain
+            await window.keplr.enable(chainId);
+            statusElement.textContent = 'Estado: ✅ Conectado con éxito.';
+            
+            // 3. Obtener la dirección del usuario (opcional, pero útil)
+            const offlineSigner = window.keplr.getOfflineSigner(chainId);
+            const accounts = await offlineSigner.getAccounts();
+            
+            // Mostrar la dirección en el estado (o en otro lugar de la página)
+            statusElement.innerHTML = `Estado: ✅ Conectado. Dirección: <strong>${accounts[0].address.substring(0, 10)}...</strong>`;
+            
+            alert('¡Conexión exitosa a la dYdX Chain!');
+
+        } catch (error) {
+            // 4. Manejar errores de conexión
+            console.error('Error al conectar la billetera:', error);
+            statusElement.textContent = 'Estado: ❌ Fallo en la conexión. Revisa la consola o intenta de nuevo.';
+            alert('Fallo en la conexión. Asegúrate de que la dYdX Chain esté aprobada en Keplr.');
+        }
+    });
+</script>
+
         .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
         header { background-color: #000000; color: #ffffff; padding: 40px 20px; text-align: center; }
         header h1 { font-size: 2.5em; margin-bottom: 10px; }
