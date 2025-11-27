@@ -20,7 +20,23 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es"><div class="step-item">
+    <h3>Paso 3: ¡Interactúa y Toma el Control!</h3>
+    <p>Estás conectado y tienes fondos. Ahora puedes gestionar tu cartera. <strong>Verifica tus balances</strong> de $DYDX y USDC, <strong>haz staking</strong> para ganar recompensas y <strong>accede al *exchange*</strong> para empezar a operar en el mercado descentralizado.</p>
+    
+    <hr style="margin: 20px 0;">
+    
+    <h4>📊 Mi Panel de Control</h4>
+    <div id="balanceDisplay" style="background-color: #eee; padding: 15px; border-radius: 5px; margin-bottom: 20px; font-family: monospace;">
+        <p>Cargando balances...</p>
+    </div>
+
+    <div style="display: flex; gap: 15px;">
+        <button id="goToTrade" class="cta-button" style="background-color: #1e88e5;">📈 Acceder al Exchange</button>
+        <button id="goToStake" class="cta-button" style="background-color: #43a047;">🔒 Hacer Staking $DYDX</button>
+    </div>
+</div>
+
 <head><div class="step-item">
     <h3>Paso 2: Obtén Tokens $DYDX (y USDC)</h3>
     <p>Para operar en la dYdX Chain, necesitas <strong>$DYDX nativo</strong> para <em>staking</em> y <strong>USDC</strong> para comerciar. Si tienes $DYDX en Ethereum (ERC-20), debes usar el <strong>Bridge Oficial</strong>. Si no tienes, puedes comprar $DYDX o USDC en un exchange centralizado y luego enviarlos.</p>
