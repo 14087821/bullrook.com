@@ -946,4 +946,48 @@ jobs:
 
     // Nota: Esta función debe llamarse cada vez que el usuario se conecte o después de una transacción de reclamo exitosa.
 
+    document.getElementById('claimRewardsBtn').addEventListener('click', async () => {
+        const claimStatus = document.getElementById('claimStatus');
+        claimStatus.textContent = 'Procesando reclamo de recompensas...';
+        
+        try {
+            const offlineSigner = window.keplr.getOfflineSigner(chainId);
+            const accounts = await offlineSigner.getAccounts();
+            const delegatorAddress = accounts[0].address;
+            
+            // --- PASO CLAVE: OBTENER TODOS LOS VALIDATOR ADDRESSES DEL USUARIO ---
+            // Primero, necesitamos una lista de TODOS los validadores a los que el usuario ha delegado.
+            // Esto requiere otra llamada RPC/LCD. Por simplicidad, usaremos un ejemplo:
+            // const validatorAddresses = await getDelegationsValidators(delegatorAddress);
+
+            // SIMULACIÓN DE VALIDATORS ENCONTRADOS:
+            const simulatedValidatorAddresses = ["dydxvaloper1a...1", "dydxvaloper1b...2"]; 
+
+            // 1. Crear UN MENSAJE de reclamo por CADA validador
+            const msgs = simulatedValidatorAddresses.map(valAddr => ({
+                typeUrl: "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
+                value: {
+                    delegatorAddress: delegatorAddress,
+                    validatorAddress: valAddr,
+                },
+            }));
+            
+            // 2. Configurar la tarifa y enviar el lote de mensajes en UNA sola transacción
+            const fee = { amount: [{ denom: nativeDenom, amount: "100" }], gas: "350000" }; // Más gas si son varios mensajes
+            
+            // const txResponse = await client.signAndBroadcast(delegatorAddress, msgs, fee, "Reclamar Recompensas");
+
+            // --- SIMULACIÓN DEL ÉXITO ---
+            claimStatus.textContent = `✅ Reclamadas las recompensas de ${msgs.length} validadores. ¡Revisa tu balance! (Simulado)`;
+            // Volver a cargar balances y recompensas después de un segundo
+            setTimeout(() => {
+                fetchBalances(delegatorAddress); 
+                fetchRewards(delegatorAddress); 
+            }, 1000); 
+
+        } catch (error) {
+            console.error('Error al reclamar recompensas:', error);
+            claimStatus.textContent = `❌ Fallo al reclamar: ${error.message}`;
+        }
+    });
 
