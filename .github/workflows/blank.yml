@@ -21,7 +21,26 @@ jobs:
     runs-on: ubuntu-latest
 <!DOCTYPE html>
 <html lang="es">
-<head>
+<head><div class="step-item">
+    <h3>Paso 2: Obtén Tokens $DYDX (y USDC)</h3>
+    <p>Para operar en la dYdX Chain, necesitas <strong>$DYDX nativo</strong> para <em>staking</em> y <strong>USDC</strong> para comerciar. Si tienes $DYDX en Ethereum (ERC-20), debes usar el <strong>Bridge Oficial</strong>. Si no tienes, puedes comprar $DYDX o USDC en un exchange centralizado y luego enviarlos.</p>
+    
+    <h4>Opciones para Financiar tu Cuenta:</h4>
+    <div style="display: flex; gap: 15px; margin-top: 15px;">
+        <a href="https://bridge.dydx.trade/" target="_blank" style="text-decoration: none;">
+            <button class="cta-button" style="background-color: #008fa3;">🌉 Usar Bridge Oficial</button>
+        </a>
+        
+        <a href="https://help.dydx.trade/en/articles/166971-how-to-withdraw-on-dydx" target="_blank" style="text-decoration: none;">
+            <button class="cta-button" style="background-color: #555;">💰 Comprar en un Exchange</button>
+        </a>
+
+        <a href="https://crypto-economy.com/es/dydx-amplia-los-incentivos-para-sus-afiliados-con-un-nuevo-nivel-del-50/" target="_blank" style="text-decoration: none;">
+            <button class="cta-button" style="background-color: #aaa; color: #333;">📖 Ver Guía Completa</button>
+        </a>
+    </div>
+</div>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portal DYDX Chain</title>
