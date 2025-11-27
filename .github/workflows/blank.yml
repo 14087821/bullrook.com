@@ -1090,3 +1090,4 @@ jobs:
         background-color: #ff9800 !important; /* Naranja (Recompensas/Alerta) */
     }
 </style>
+npm install @cosmjs/stargate @cosmjs/proto-signing @keplr-wallet/types
