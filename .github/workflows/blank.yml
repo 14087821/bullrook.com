@@ -913,5 +913,37 @@ jobs:
         Reclamar Recompensas
     </button>
     <p id="claimStatus" style="margin-top: 10px; font-size: 0.9em;"></p>
-</div>
+</div>    /**
+     * Función que consulta el total de recompensas acumuladas por el usuario.
+     */
+    async function fetchRewards(delegatorAddress) {
+        const rewardsElement = document.getElementById('currentRewards');
+        
+        try {
+            // Endpoint para la consulta de recompensas del módulo de distribución de Cosmos SDK
+            const response = await fetch(`${rpcEndpoint}/cosmos/distribution/v1beta1/delegators/${delegatorAddress}/rewards`);
+            const data = await response.json();
+            
+            let totalRewards = 0;
+
+            if (data.total && data.total.length > 0) {
+                // Buscamos la recompensa en el token nativo ($DYDX)
+                const nativeReward = data.total.find(coin => coin.denom === nativeDenom); // 'adyD'
+                
+                if (nativeReward) {
+                    // Dividimos por 1e18 para obtener la cantidad en unidades legibles ($DYDX)
+                    totalRewards = (parseFloat(nativeReward.amount) / 1e18).toFixed(4);
+                }
+            }
+
+            rewardsElement.textContent = `${totalRewards} $DYDX`;
+
+        } catch (error) {
+            console.error('Error al obtener recompensas:', error);
+            rewardsElement.textContent = 'Error al cargar';
+        }
+    }
+
+    // Nota: Esta función debe llamarse cada vez que el usuario se conecte o después de una transacción de reclamo exitosa.
+
 
