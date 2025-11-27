@@ -991,7 +991,7 @@ jobs:
         }
     });
 <style>
-    /* 1. Reset Básico y Tipografía */
+    /* 1. Reset Básico y Tipografía *62577bac4341e24e7600eebac741c44191c06d79
     * { box-sizing: border-box; }
     body { 
         font-family: 'Inter', sans-serif; /* Usar una fuente moderna (debe enlazarse en <head>) */
