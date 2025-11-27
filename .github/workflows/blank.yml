@@ -1120,3 +1120,49 @@ async function getSigningClient() {
     const accounts = await offlineSigner.getAccounts();
     return { client, userAddress: accounts[0].address };
 }
+import { SigningStargateClient, GasPrice } from "@cosmjs/stargate";
+import { MsgDelegate } from "cosmjs-types/cosmos/staking/v1beta1/tx";
+// ... (Otras importaciones necesarias) ...
+
+document.getElementById('submitStakeBtn').addEventListener('click', async () => {
+    // ... (Obtención de parámetros) ...
+    
+    try {
+        const { client, userAddress } = await getSigningClient();
+        
+        // 1. Convertir la cantidad a la denominación menor (adydx)
+        const nativeAmount = (parseFloat(amountToStake) * 1e18).toString(); 
+
+        // 2. Crear el mensaje de delegación
+        const msgDelegate = {
+            typeUrl: "/cosmos.staking.v1beta1.MsgDelegate",
+            value: MsgDelegate.fromPartial({
+                delegatorAddress: userAddress,
+                validatorAddress: validatorAddress,
+                amount: {
+                    denom: nativeDenom,
+                    amount: nativeAmount, 
+                },
+            }),
+        };
+        
+        // 3. Enviar la transacción firmada
+        // NOTA: El gas y fee se calcularán automáticamente o se basarán en el GasPrice del cliente.
+        const txResponse = await client.signAndBroadcast(
+            userAddress, 
+            [msgDelegate], 
+            "auto", 
+            "Delegación de DYDX desde el portal"
+        );
+
+        if (txResponse.code !== undefined && txResponse.code !== 0) {
+            stakeStatus.textContent = `❌ Fallo en la TX: ${txResponse.rawLog}`;
+            return;
+        }
+
+        stakeStatus.textContent = `✅ Staking exitoso! Hash de TX: ${txResponse.transactionHash.substring(0, 10)}...`;
+
+    } catch (error) {
+        // ... (Manejo de errores) ...
+    }
+});
