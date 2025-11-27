@@ -1047,3 +1047,46 @@ jobs:
     }
 </style>
 
+<style>
+    /* 3. Tarjetas de Pasos e Interacciones */
+    .steps, .details { 
+        padding: 40px 0; 
+    }
+    .step-item { 
+        background-color: #1a1a1a; /* Fondo de tarjeta gris oscuro */
+        padding: 30px; 
+        border-radius: 12px; 
+        margin-bottom: 30px; 
+        box-shadow: 0 8px 16px rgba(0,0,0,0.5); /* Sombra más pronunciada */
+        border-left: 5px solid transparent; /* Para el efecto de acento */
+        transition: border-left 0.3s;
+    }
+    .step-item:hover {
+        border-left: 5px solid #00bcd4; /* Acabado visual al pasar el ratón */
+    }
+
+    /* Estilos específicos para los formularios de Trading/Staking */
+    input[type="number"], select {
+        background-color: #2c2c2c;
+        border: 1px solid #444;
+        color: #e0e0e0;
+        border-radius: 4px;
+    }
+    
+    /* Estilos para los botones de acción dentro de las secciones (Trading, Staking) */
+    #submitOrderBtn, #submitStakeBtn, #claimRewardsBtn {
+        /* Se usa la clase .cta-button, pero ajustamos el color */
+        border-radius: 4px !important;
+        font-size: 1em !important;
+        padding: 12px 20px !important;
+        box-shadow: none !important;
+    }
+
+    /* Ajuste de color para los botones de Staking y Recompensas */
+    #submitStakeBtn, #claimRewardsBtn {
+        background-color: #43a047 !important; /* Verde (Staking/Seguridad) */
+    }
+    #claimRewardsBtn {
+        background-color: #ff9800 !important; /* Naranja (Recompensas/Alerta) */
+    }
+</style>
