@@ -147,3 +147,240 @@ jobs:
         run: |
           echo Add other actions to build,
           echo test, and deploy your project.
+<script>
+    // ... (El código de conexión de la billetera del Paso 1 va aquí) ...
+
+    const chainId = 'dydx-mainnet-1'; 
+    const rpcEndpoint = 'https://rpc.dydx.nodex.one:443'; // Ejemplo de endpoint RPC (debe ser un nodo válido)
+    
+    // NOTA: Estas denominaciones DEBEN ser las exactas en la dYdX Chain. 
+    // Por convención, usaremos 'adyD' para el token nativo y un placeholder para USDC.
+    const nativeDenom = 'adyD'; 
+    const usdcDenom = 'ibc/0000000000000000000000000000000000000000000000000000000000000000'; // Placeholder para USDC (suele ser un hash IBC largo)
+
+    /**
+     * Función que detecta la billetera conectada y llama a la API de la cadena
+     * para obtener los balances del usuario.
+     */
+    async function fetchBalances(address) {
+        const display = document.getElementById('balanceDisplay');
+        display.innerHTML = '<p>Cargando balances...</p>';
+        
+        try {
+            // Usamos un endpoint RPC para consultar datos (lectura)
+            const response = await fetch(`${rpcEndpoint}/cosmos/bank/v1beta1/balances/${address}`);
+            const data = await response.json();
+            
+            let dydxBalance = 0;
+            let usdcBalance = 0;
+            
+            // 1. Procesar los balances
+            if (data.balances && data.balances.length > 0) {
+                data.balances.forEach(coin => {
+                    // La denominación nativa (adyD) se divide por 1,000,000,000,000,000,000 para obtener el $DYDX
+                    if (coin.denom === nativeDenom) {
+                        // Asumimos 18 decimales por ser un token migrado de ERC-20
+                        dydxBalance = (parseFloat(coin.amount) / 1e18).toFixed(4); 
+                    } 
+                    // El USDC (usando un hash IBC real) suele tener 6 decimales
+                    else if (coin.denom === usdcDenom) { 
+                        usdcBalance = (parseFloat(coin.amount) / 1e6).toFixed(2);
+                    }
+                    // NOTA: Es esencial confirmar los decimales exactos (1e18 para DYDX, 1e6 para USDC).
+                });
+            }
+
+            // 2. Mostrar los resultados
+            display.innerHTML = `
+                <p><strong>Dirección:</strong> ${address}</p>
+                <p><strong>Balance $DYDX Nativo:</strong> ${dydxBalance} DYDX</p>
+                <p><strong>Balance USDC:</strong> ${usdcBalance} USDC</p>
+            `;
+
+        } catch (error) {
+            console.error('Error al obtener balances:', error);
+            display.innerHTML = '<p style="color: red;">❌ Error al cargar los balances. Asegúrate de que el RPC esté activo.</p>';
+        }
+    }
+
+
+    // --- INTEGRACIÓN CON EL PASO 1 (CONEXIÓN) ---
+
+    // Modificamos el listener del botón principal para que, si está conectado, muestre balances
+    document.getElementById('connectWalletBtn').addEventListener('click', async () => {
+        // ... (todo el código de conexión del Paso 1) ...
+        
+        // CÓDIGO AÑADIDO: Si la conexión es exitosa, llama a fetchBalances
+        try {
+            await window.keplr.enable(chainId);
+            const offlineSigner = window.keplr.getOfflineSigner(chainId);
+            const accounts = await offlineSigner.getAccounts();
+            
+            // Llama a la nueva función de balances
+            fetchBalances(accounts[0].address); 
+            // ... (el resto del código de status del Paso 1) ...
+            
+        } catch (error) {
+            // Manejar errores de conexión
+        }
+    });
+
+</script>
+<script>
+    // ... (El código de conexión de la billetera del Paso 1 va aquí) ...
+
+    const chainId = 'dydx-mainnet-1'; 
+    const rpcEndpoint = 'https://rpc.dydx.nodex.one:443'; // Ejemplo de endpoint RPC (debe ser un nodo válido)
+    
+    // NOTA: Estas denominaciones DEBEN ser las exactas en la dYdX Chain. 
+    // Por convención, usaremos 'adyD' para el token nativo y un placeholder para USDC.
+    const nativeDenom = 'adyD'; 
+    const usdcDenom = 'ibc/0000000000000000000000000000000000000000000000000000000000000000'; // Placeholder para USDC (suele ser un hash IBC largo)
+
+    /**
+     * Función que detecta la billetera conectada y llama a la API de la cadena
+     * para obtener los balances del usuario.
+     */
+    async function fetchBalances(address) {
+        const display = document.getElementById('balanceDisplay');
+        display.innerHTML = '<p>Cargando balances...</p>';
+        
+        try {
+            // Usamos un endpoint RPC para consultar datos (lectura)
+            const response = await fetch(`${rpcEndpoint}/cosmos/bank/v1beta1/balances/${address}`);
+            const data = await response.json();
+            
+            let dydxBalance = 0;
+            let usdcBalance = 0;
+            
+            // 1. Procesar los balances
+            if (data.balances && data.balances.length > 0) {
+                data.balances.forEach(coin => {
+                    // La denominación nativa (adyD) se divide por 1,000,000,000,000,000,000 para obtener el $DYDX
+                    if (coin.denom === nativeDenom) {
+                        // Asumimos 18 decimales por ser un token migrado de ERC-20
+                        dydxBalance = (parseFloat(coin.amount) / 1e18).toFixed(4); 
+                    } 
+                    // El USDC (usando un hash IBC real) suele tener 6 decimales
+                    else if (coin.denom === usdcDenom) { 
+                        usdcBalance = (parseFloat(coin.amount) / 1e6).toFixed(2);
+                    }
+                    // NOTA: Es esencial confirmar los decimales exactos (1e18 para DYDX, 1e6 para USDC).
+                });
+            }
+
+            // 2. Mostrar los resultados
+            display.innerHTML = `
+                <p><strong>Dirección:</strong> ${address}</p>
+                <p><strong>Balance $DYDX Nativo:</strong> ${dydxBalance} DYDX</p>
+                <p><strong>Balance USDC:</strong> ${usdcBalance} USDC</p>
+            `;
+
+        } catch (error) {
+            console.error('Error al obtener balances:', error);
+            display.innerHTML = '<p style="color: red;">❌ Error al cargar los balances. Asegúrate de que el RPC esté activo.</p>';
+        }
+    }
+
+
+    // --- INTEGRACIÓN CON EL PASO 1 (CONEXIÓN) ---
+
+    // Modificamos el listener del botón principal para que, si está conectado, muestre balances
+    document.getElementById('connectWalletBtn').addEventListener('click', async () => {
+        // ... (todo el código de conexión del Paso 1) ...
+        
+        // CÓDIGO AÑADIDO: Si la conexión es exitosa, llama a fetchBalances
+        try {
+            await window.keplr.enable(chainId);
+            const offlineSigner = window.keplr.getOfflineSigner(chainId);
+            const accounts = await offlineSigner.getAccounts();
+            
+            // Llama a la nueva función de balances
+            fetchBalances(accounts[0].address); 
+            // ... (el resto del código de status del Paso 1) ...
+            
+        } catch (error) {
+            // Manejar errores de conexión
+        }
+    });
+
+</script>
+<script>
+    // ... (El código de conexión de la billetera del Paso 1 va aquí) ...
+
+    const chainId = 'dydx-mainnet-1'; 
+    const rpcEndpoint = 'https://rpc.dydx.nodex.one:443'; // Ejemplo de endpoint RPC (debe ser un nodo válido)
+    
+    // NOTA: Estas denominaciones DEBEN ser las exactas en la dYdX Chain. 
+    // Por convención, usaremos 'adyD' para el token nativo y un placeholder para USDC.
+    const nativeDenom = 'adyD'; 
+    const usdcDenom = 'ibc/0000000000000000000000000000000000000000000000000000000000000000'; // Placeholder para USDC (suele ser un hash IBC largo)
+
+    /**
+     * Función que detecta la billetera conectada y llama a la API de la cadena
+     * para obtener los balances del usuario.
+     */
+    async function fetchBalances(address) {
+        const display = document.getElementById('balanceDisplay');
+        display.innerHTML = '<p>Cargando balances...</p>';
+        
+        try {
+            // Usamos un endpoint RPC para consultar datos (lectura)
+            const response = await fetch(`${rpcEndpoint}/cosmos/bank/v1beta1/balances/${address}`);
+            const data = await response.json();
+            
+            let dydxBalance = 0;
+            let usdcBalance = 0;
+            
+            // 1. Procesar los balances
+            if (data.balances && data.balances.length > 0) {
+                data.balances.forEach(coin => {
+                    // La denominación nativa (adyD) se divide por 1,000,000,000,000,000,000 para obtener el $DYDX
+                    if (coin.denom === nativeDenom) {
+                        // Asumimos 18 decimales por ser un token migrado de ERC-20
+                        dydxBalance = (parseFloat(coin.amount) / 1e18).toFixed(4); 
+                    } 
+                    // El USDC (usando un hash IBC real) suele tener 6 decimales
+                    else if (coin.denom === usdcDenom) { 
+                        usdcBalance = (parseFloat(coin.amount) / 1e6).toFixed(2);
+                    }
+                    // NOTA: Es esencial confirmar los decimales exactos (1e18 para DYDX, 1e6 para USDC).
+                });
+            }
+
+            // 2. Mostrar los resultados
+            display.innerHTML = `
+                <p><strong>Dirección:</strong> ${address}</p>
+                <p><strong>Balance $DYDX Nativo:</strong> ${dydxBalance} DYDX</p>
+                <p><strong>Balance USDC:</strong> ${usdcBalance} USDC</p>
+            `;
+
+        } catch (error) {
+            console.error('Error al obtener balances:', error);
+            display.innerHTML = '<p style="color: red;">❌ Error al cargar los balances. Asegúrate de que el RPC esté activo.</p>';
+        }
+    }
+
+
+    // --- INTEGRACIÓN CON EL PASO 1 (CONEXIÓN) ---
+
+    // Modificamos el listener del botón principal para que, si está conectado, muestre balances
+    document.getElementById('connectWalletBtn').addEventListener('click', async () => {
+        // ... (todo el código de conexión del Paso 1) ...
+        
+        // CÓDIGO AÑADIDO: Si la conexión es exitosa, llama a fetchBalances
+        try {
+            await window.keplr.enable(chainId);
+            const offlineSigner = window.keplr.getOfflineSigner(chainId);
+            const accounts = await offlineSigner.getAccounts();
+            
+            // Llama a la nueva función de balances
+            fetchBalances(accounts[0].address); 
+            // ... (el resto del código de status del Paso 1) ...
+            
+        } catch (error) {
+            // Manejar errores de conexión
+        }
+    });
+
+</script>
